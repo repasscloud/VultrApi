@@ -6,7 +6,7 @@ class Program
 {
     static async Task Main()
     {
-        string apiKey = "R5YR4UTYKS2BFSQ7J3NTGEFFMCPT3POIEDPA";
+        string apiKey = "";
 
         List<Region> regions = await Vultr.GetRegionsAsync(apiKey);
 
