@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Reference Include="LunaApiVultr">
-      <HintPath>C:\Users\Administrator\source\repos\LunaApiVultr\bin\Release\net8.0\LunaApiVultr.dll</HintPath>
+      <HintPath>/home/danijeljw/Projects/lunavpn/LunaApiVultr/bin/Release/net8.0/LunaApiVultr.dll</HintPath>
     </Reference>
   </ItemGroup>
 
