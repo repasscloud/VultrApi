@@ -2,15 +2,25 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Reference Include="LunaApiVultr">
-      <HintPath>/home/danijeljw/Projects/lunavpn/LunaApiVultr/bin/Release/net8.0/LunaApiVultr.dll</HintPath>
+      <HintPath>LunaApiVultr.dll</HintPath>
     </Reference>
+  </ItemGroup> -->
+
+  <ItemGroup>
+    <None Update="LunaApiVultr.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LunaApiVultr" Version="1.0.1" />
   </ItemGroup>
 
 </Project>
