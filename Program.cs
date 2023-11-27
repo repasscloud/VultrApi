@@ -1,20 +1,31 @@
-﻿using System.Security.Cryptography;
-using LunaApiVultr;
-using LunaApiVultr.Models.OperatingSystem;
+﻿using LunaApiVultr;
+using LunaApiVultr.Models.Instances;
 using LunaApiVultr.Models.Scripts;
-using LunaApiVultr.Models.Shared;
 
 namespace VultrApi;
 class Program
 {
     static async Task Main()
     {
-        string vultrApiKey = "";
+        string variableName = "VULTR_API_KEY";
+        string vultrApiKey = string.Empty;
 
+        // try to get the value of the environment variable.
+        string? variableValue = Environment.GetEnvironmentVariable(variableName);
+
+        if (variableValue == null)
+        {
+            Console.WriteLine($"The value of {variableName} is not set.");
+            Environment.Exit(1);
+        }
+        else
+        {
+            vultrApiKey = variableValue;
+        }
+        
         // Create an instance of HttpClient with default headers
         var httpClient = new HttpClient();
 
-        // Create an instance of VultrApiClient, passing the HttpClient
         // Create an instance of VultrApiClient, passing the HttpClient
         using (VultrApiClient vultrApiClient = new VultrApiClient(vultrApiKey, httpClient))
         {
@@ -23,6 +34,7 @@ class Program
             // foreach (var i in scripts)
             // {
             //     Console.WriteLine(i.Name);
+            //     Console.WriteLine(i.Id);
             // }
             // Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=");
 
@@ -53,9 +65,9 @@ class Program
             // }
             // Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=");
 
-            // create an instance
-            List<string> tags = new() { "f900054a-ca11-4eb5-bb6a-083379566695" };
-            await Vultr.CreateNewInstanceAsync(vultrApiClient, serverTags: tags);
+            // // create an instance
+            // List<string> tags = new() { "f900054a-ca12-4eb5-bb6a-083379566695" };
+            // await Vultr.CreateNewInstanceAsync(vultrApiClient, serverTags: tags, scriptId: "8e443ea6-e120-4e7d-9e8a-bb475f9ddc2f");
 
             // // delete an instance
             // List<string> ids = new() {
@@ -67,8 +79,13 @@ class Program
             // {
             //     await Vultr.DeleteInstanceAsync(vultrApiClient, instanceId: i);
             // }
+
+            // get instance data
+            Instance instance = await Vultr.GetInstanceDetails(vultrApiClient, instanceId: "73be7cb2-8c02-4af8-908d-ef85a0da4c6d");
+            Console.WriteLine($"os:       {instance.Os}");
+            Console.WriteLine($"ipv4:     {instance.MainIp}");
+            Console.WriteLine($"ipv6:     {instance.V6MainIp}");
+            Console.WriteLine($"created:  {instance.DateCreated}");
         }
     }
 }
-
-//curl "https://api.vultr.com/v2/plans" -X GET -H "Authorization: Bearer HOVQFXIP4I3PASZBZ3PMX256OC5EKSNP5URQ"
