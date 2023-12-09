@@ -1,5 +1,4 @@
 ﻿using LunaApiVultr;
-using LunaApiVultr.Models.Instances;
 using LunaApiVultr.Models.Scripts;
 
 namespace VultrApi;
@@ -16,11 +15,16 @@ class Program
         if (variableValue == null)
         {
             Console.WriteLine($"The value of {variableName} is not set.");
-            Environment.Exit(1);
+
+        }
+        else if (!string.IsNullOrEmpty(vultrApiKey))
+        {
+            vultrApiKey = variableValue;
         }
         else
         {
-            vultrApiKey = variableValue;
+            Console.WriteLine("There is no API key set with env or in code");
+            Environment.Exit(1);
         }
         
         // Create an instance of HttpClient with default headers
@@ -29,14 +33,14 @@ class Program
         // Create an instance of VultrApiClient, passing the HttpClient
         using (VultrApiClient vultrApiClient = new VultrApiClient(vultrApiKey, httpClient))
         {
-            // Console.WriteLine("[SCRIPTS]");
-            // List<StartupScript> scripts = await Vultr.GetStartupScriptsAsync(vultrApiClient);
-            // foreach (var i in scripts)
-            // {
-            //     Console.WriteLine(i.Name);
-            //     Console.WriteLine(i.Id);
-            // }
-            // Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=");
+            Console.WriteLine("[SCRIPTS]");
+            List<StartupScript> scripts = await Vultr.GetStartupScriptsAsync(vultrApiClient);
+            foreach (var i in scripts)
+            {
+                Console.WriteLine(i.Name);
+                Console.WriteLine(i.Id);
+            }
+            Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=");
 
             // Console.WriteLine("[REGIONS]");
             // List<Region> regions = await Vultr.GetRegionsAsync(vultrApiClient);
@@ -80,12 +84,12 @@ class Program
             //     await Vultr.DeleteInstanceAsync(vultrApiClient, instanceId: i);
             // }
 
-            // get instance data
-            Instance instance = await Vultr.GetInstanceDetails(vultrApiClient, instanceId: "73be7cb2-8c02-4af8-908d-ef85a0da4c6d");
-            Console.WriteLine($"os:       {instance.Os}");
-            Console.WriteLine($"ipv4:     {instance.MainIp}");
-            Console.WriteLine($"ipv6:     {instance.V6MainIp}");
-            Console.WriteLine($"created:  {instance.DateCreated}");
+            // // get instance data
+            // Instance instance = await Vultr.GetInstanceDetails(vultrApiClient, instanceId: "73be7cb2-8c02-4af8-908d-ef85a0da4c6d");
+            // Console.WriteLine($"os:       {instance.Os}");
+            // Console.WriteLine($"ipv4:     {instance.MainIp}");
+            // Console.WriteLine($"ipv6:     {instance.V6MainIp}");
+            // Console.WriteLine($"created:  {instance.DateCreated}");
         }
     }
 }
